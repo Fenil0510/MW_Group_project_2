@@ -1,0 +1,65 @@
+﻿@model TaskManagerSystem.Models.TaskItem
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">Edit Task</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <form asp-action="Edit">
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="Title" class="form-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Description" class="form-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Status" class="form-label"></label>
+                    <select asp-for="Status" class="form-control">
+                        <option>Pending</option>
+                        <option>In Progress</option>
+                        <option>Completed</option>
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Select User</label>
+                    <select asp-for="UserId" class="form-control">
+                        <option value="">-- Select User --</option>
+                        @foreach (var user in ViewBag.Users)
+                        {
+                            <option value="@user.Id" selected="@(user.Id == Model.UserId)">
+                                @user.Email
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="CreatedAt" class="form-label"></label>
+                    <input asp-for="CreatedAt" class="form-control" readonly />
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-secondary">Back</a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>

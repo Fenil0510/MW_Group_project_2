@@ -1,0 +1,81 @@
+﻿@model IEnumerable<TaskManagerSystem.Models.TaskItemViewModel> 
+
+@{
+    ViewData["Title"] = "Tasks";
+    var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">Task List</h2>
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary">+ Create New Task</a>
+    </p>
+
+    <table class="table table-bordered table-hover shadow">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Assigned User</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="text-center">
+                    <td class="fw-bold">@item.Title</td>
+
+                    <td>@item.Description</td>
+
+                    <td>
+                        @if (item.Status == "Completed")
+                        {
+                            <span class="badge bg-success">Completed</span>
+                        }
+                        else if (item.Status == "In Progress")
+                        {
+                            <span class="badge bg-warning text-dark">In Progress</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Pending</span>
+                        }
+                    </td>
+
+                    <td>@item.CreatedAt</td>
+
+                    <td>
+                        <span class="badge bg-info text-dark">
+                            @item.UserEmail
+                        </span>
+                    </td>
+
+                    <td>
+
+                        
+                        @if (User.IsInRole("Admin") || User.IsInRole("Manager") || item.UserId == currentUserId)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edit</a>
+                        }
+
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+
+                        
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

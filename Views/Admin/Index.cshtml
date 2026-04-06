@@ -1,0 +1,59 @@
+﻿@model List<dynamic>
+
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">Admin Dashboard</h2>
+
+    <table class="table table-bordered table-hover shadow">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Assign Role</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr class="text-center">
+                    <td>
+                        <span class="fw-bold">@user.Email</span>
+                    </td>
+
+                    <td>
+                        @if (user.Roles != null)
+                        {
+                            <span class="badge bg-info text-dark">
+                                @user.Roles
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                No Role
+                            </span>
+                        }
+                    </td>
+
+                    <td>
+                        <form method="post" asp-action="AssignRole" class="d-flex justify-content-center gap-2">
+                            <input type="hidden" name="userId" value="@user.Id" />
+
+                            <select name="role" class="form-select w-50">
+                                <option value="Admin">Admin</option>
+                                <option value="Manager">Manager</option>
+                                <option value="User">User</option>
+                            </select>
+
+                            <button type="submit" class="btn btn-success btn-sm">
+                                Assign
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
